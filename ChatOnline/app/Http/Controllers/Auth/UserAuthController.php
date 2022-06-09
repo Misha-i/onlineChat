@@ -37,7 +37,7 @@ class UserAuthController extends Controller
             Please try again']);
         }
 
-        $token = auth()->user()->createToken('API Token')->accessToken;
+        $token = auth()->user()->createToken('API Token');
 
         return response(['user' => auth()->user(), 'token' => $token]);
 
