@@ -34,7 +34,7 @@ class EmployeeController extends Controller
         $data = $request->all();
 
         $validator = Validator::make($data, [
-            'name' => 'required|max:50',
+            'message' => 'required|max:50',
         ]);
 
         if ($validator->fails()) {

@@ -20,9 +20,9 @@ class UserAuthController extends Controller
 
         $user = User::create($data);
 
-        $token = $user->createToken('API Token')->accessToken;
+        $token = $user->createToken('API Token');
 
-        return response([ 'user' => $user, 'token' => $token]);
+        return response(['user' => $user, 'token' => $token]);
     }
 
     public function login(Request $request)
@@ -33,8 +33,7 @@ class UserAuthController extends Controller
         ]);
 
         if (!auth()->attempt($data)) {
-            return response(['error_message' => 'Incorrect Details.
-            Please try again']);
+            return response(['error_message' => 'Incorrect Details. Please try again']);
         }
 
         $token = auth()->user()->createToken('API Token');
@@ -42,4 +41,5 @@ class UserAuthController extends Controller
         return response(['user' => auth()->user(), 'token' => $token]);
 
     }
+
 }

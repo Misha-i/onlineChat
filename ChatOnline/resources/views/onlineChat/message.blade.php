@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <style>
+
+
+
         /*.blog {
             overflow: auto;
         }*/
@@ -32,7 +35,7 @@
     </style>
 </head>
 
-<body>
+
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
@@ -56,7 +59,7 @@
                         @endforeach
                     </div>
 
-                    <form action="{{ route('createUser') }}" method="POST">
+                    <form action="{{ route('createMessage') }}" method="POST">
                         @csrf
                         <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
                             <div class="input-group mb-0">

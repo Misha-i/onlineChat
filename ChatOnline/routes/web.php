@@ -19,10 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('message', [MessageController::class, 'index'])->name('message');
-Route::post('createmessage', [MessageController::class, 'create1'])->name('createUser');
+Route::post('message', [MessageController::class, 'create'])->name('createMessage');
 
-/*Route::get('/register', [UserController::class, 'create']);
-Route::post('/register', [UserController::class, 'store'])->name('register.store');*/
 
 
 
