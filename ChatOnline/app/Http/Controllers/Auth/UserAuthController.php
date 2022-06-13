@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
 {
     public function register(Request $request)
     {
+        if(Auth::check()) {
+            return redirect(route('message'));
+        }
+
         $data = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',

@@ -5,12 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Messages</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Messages</title>
+
     <style>
-
-
 
         /*.blog {
             overflow: auto;
@@ -34,8 +33,11 @@
 
     </style>
 </head>
-
-
+<body>
+<a href="{{ route('logout') }}">
+    <button type="button" class="btn btn-danger">Вийти</button>
+</a>
+<p>{{ auth()->user()->name }}</p>
 <section style="background-color: #eee;">
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
@@ -47,17 +49,21 @@
                     </div>
                     <div class="message-container">
                         @foreach($messages as $message)
-                            @if($message->sender_id==1)
+                            @if($message->sender_id==1 && $message->recipient_id==2)
                                 <div class="message-left">
                                     <p style="text-align: left">{{ $message->message }}</p>
                                 </div>
-                            @else
+                            @endif
+                            @if($message->sender_id==2 && $message->recipient_id==1 )
                                 <div class="message-right">
                                     <p style="text-align: right">{{ $message->message }}</p>
                                 </div>
                             @endif
                         @endforeach
                     </div>
+                    @php
+                        dump(auth()->check())
+                    @endphp
 
                     <form action="{{ route('createMessage') }}" method="POST">
                         @csrf
@@ -73,10 +79,10 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
 </body>
 </html>
+

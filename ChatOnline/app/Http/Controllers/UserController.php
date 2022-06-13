@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,6 +14,40 @@ class UserController extends Controller
     }
 
     public function store (Request $request){
-        return view('user.create');
+        $request->validate([
+            'name' => 'required',
+            'email' => 'unique:users,email',
+            'password' => 'required|confirmed',
+
+        ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        session()->flash('success', 'Successful registration');
+        Auth::login($user);
+
+        return redirect()->route('message');
+    }
+    public function loginForm(){
+        return view('user.login');
+    }
+    public function login(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ])) {
+            return redirect()->route('message');
+        }
+        return redirect()->back()->with('error', 'Incorrect login or password');
+    }
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

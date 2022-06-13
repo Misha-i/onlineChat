@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('message', [MessageController::class, 'index'])->name('message');
+Route::get('message', [MessageController::class, 'index'])/*->middleware('auth')*/->name('message');
 Route::post('message', [MessageController::class, 'create'])->name('createMessage');
+
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('register', [UserController::class, 'create'])->name('register.create');
+    Route::post('register', [UserController::class, 'store'])->name('register.store');
+    Route::get('/login', [UserController::class, 'loginForm'])->name('loginForm');
+    Route::post('/login', [UserController::class, 'login'])->name('login');
+});
+Route::get('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function(){
+    Route::get('/', [MainController::class, 'index']);
+});
 
 
 

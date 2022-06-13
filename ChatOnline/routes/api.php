@@ -19,9 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [UserAuthController::class, 'register']);
+/*Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/login', [UserAuthController::class, 'login']);
 
 
-Route::apiResource('/employee', 'App\Http\Controllers\EmployeeController')->middleware('api');
+Route::apiResource('/employee', 'App\Http\Controllers\EmployeeController')->middleware('api');*/
 
