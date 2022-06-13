@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('message', [MessageController::class, 'index'])/*->middleware('auth')*/->name('message');
-Route::post('message', [MessageController::class, 'create'])->name('createMessage');
+Route::group(['middlawere' => 'signed'], function(){
+    Route::get('message', [MessageController::class, 'index'])->name('message');
+    Route::post('message', [MessageController::class, 'create'])->name('createMessage');
+});
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('register', [UserController::class, 'create'])->name('register.create');

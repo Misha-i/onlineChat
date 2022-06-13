@@ -42,6 +42,7 @@
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-4">
+
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center p-3"
                          style="border-top: 4px solid #ffa900;">
@@ -49,12 +50,12 @@
                     </div>
                     <div class="message-container">
                         @foreach($messages as $message)
-                            @if($message->sender_id==1 && $message->recipient_id==2)
+                            @if($message->sender_id==Auth::id() && $message->recipient_id==7)
                                 <div class="message-left">
                                     <p style="text-align: left">{{ $message->message }}</p>
                                 </div>
                             @endif
-                            @if($message->sender_id==2 && $message->recipient_id==1 )
+                            @if($message->sender_id==7 && $message->recipient_id==Auth::id() )
                                 <div class="message-right">
                                     <p style="text-align: right">{{ $message->message }}</p>
                                 </div>
