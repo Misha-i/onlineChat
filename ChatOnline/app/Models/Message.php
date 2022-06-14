@@ -11,6 +11,6 @@ class Message extends Model
     protected $fillable = ['messages'];
 
     public function messages(){
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 }
