@@ -19,22 +19,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-/*Route::group(['middlawere' => 'signed'], function(){*/
-    Route::get('message', [MessageController::class, 'index'])->name('message');
-    Route::post('message', [MessageController::class, 'create'])->name('createMessage');
-    Route::get('sendMessageUser/{id}', [MessageController::class, 'sendMessageUser'])->name('sendMessageUser');
-/*});*/
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/message', [MessageController::class, 'index'])->name('message');
+    Route::post('/message', [MessageController::class, 'create'])->name('createMessage');
+    Route::get('/chatMessage/{id}', [MessageController::class, 'sendMessageUser'])->name('chatMessage');
+});
 
 Route::group(['middleware' => 'guest'], function(){
-    Route::get('register', [UserController::class, 'create'])->name('register.create');
-    Route::post('register', [UserController::class, 'store'])->name('register.store');
+    Route::get('/register', [UserController::class, 'create'])->name('register.create');
+    Route::post('/register', [UserController::class, 'store'])->name('register.store');
     Route::get('/login', [UserController::class, 'loginForm'])->name('loginForm');
     Route::post('/login', [UserController::class, 'login'])->name('login');
 });
 Route::get('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function(){
-    Route::get('/', [MainController::class, 'index']);
+    Route::get('/q', [MainController::class, 'index']);
+
 });
 
 

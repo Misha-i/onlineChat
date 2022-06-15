@@ -11,12 +11,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $messages = Message::get();
         $users = User::get();
-        return view('onlineChat.message', ['messages' => $messages, 'users' => $users,]);
+        return view('onlineChat.message', ['messages' => $messages, 'users' => $users]);
     }
-    public function create(Request $request){
+
+    public function create(Request $request)
+    {
 
         /*$message =  Message::create([
             'message' => $request->input('message'),
@@ -32,9 +35,17 @@ class MessageController extends Controller
         return redirect()->route('message');
     }
 
-    public function sendMessageUser(Request $request, $id) {
-        $user = User::where('id', $id)->first();
-        return redirect()->route('message', ['idUser' => $user]);
+    public function sendMessageUser($id)
+    {
+        $messages = Message::where(function ($messages) use ($id) {
+            $messages->where('sender_id', $id)->where('recipient_id', auth()->user()->id);
+        })->orWhere(function ($messages) use ($id) {
+            $messages->where('recipient_id', $id)->where('sender_id', auth()->user()->id);
+        })->orderBy('created_at')->get();
+        $users = User::get();
+        $user = User::where('id', $id)->get();
+       /* dd($user);*/
+        return view('onlineChat.message', ['messages' => $messages, 'users' => $users, 'user' => $user]);
     }
 
 }
