@@ -21,7 +21,8 @@ Route::get('/', function () {
 });
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/message', [MessageController::class, 'index'])->name('message');
-    Route::post('/message', [MessageController::class, 'create'])->name('createMessage');
+    /*Route::get('/message', [MessageController::class, 'indexAfterSendMessage'])->name('message');*/
+    Route::post('/message/{id}', [MessageController::class, 'create'])->name('createMessage');
     Route::get('/chatMessage/{id}', [MessageController::class, 'sendMessageUser'])->name('chatMessage');
 });
 

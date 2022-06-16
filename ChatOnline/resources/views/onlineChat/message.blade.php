@@ -49,9 +49,6 @@
             border-top: 0 !important;
         }
 
-        .container {
-            align-content: center;
-        }
 
         .search {
             border-radius: 15px 0 0 15px !important;
@@ -80,14 +77,6 @@
 
         .attach_btn {
             border-radius: 15px 0 0 15px !important;
-            background-color: rgba(0, 0, 0, 0.3) !important;
-            border: 0 !important;
-            color: white !important;
-            cursor: pointer;
-        }
-
-        .send_btn {
-            border-radius: 0 15px 15px 0 !important;
             background-color: rgba(0, 0, 0, 0.3) !important;
             border: 0 !important;
             color: white !important;
@@ -153,10 +142,6 @@
             border: 1.5px solid white;
         }
 
-        .offline {
-            background-color: #c23616 !important;
-        }
-
         .user_info {
             margin-top: auto;
             margin-bottom: auto;
@@ -171,11 +156,6 @@
         .user_info p {
             font-size: 10px;
             color: rgba(255, 255, 255, 0.6);
-        }
-
-        .video_cam {
-            margin-left: 50px;
-            margin-top: 5px;
         }
 
         .video_cam span {
@@ -203,22 +183,6 @@
             background-color: #78e08f;
             padding: 10px;
             position: relative;
-        }
-
-        .msg_time {
-            position: absolute;
-            left: 0;
-            bottom: -15px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 10px;
-        }
-
-        .msg_time_send {
-            position: absolute;
-            right: 0;
-            bottom: -15px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 10px;
         }
 
     </style>
@@ -270,15 +234,20 @@
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
-                        <div class="user_info">
-                            <span>Chat with {{$user->name}}</span>
-                        </div>
+                        @if($user_id)
+                            <div class="user_info">
+                                <span>Chat with {{$user_id->name}}</span>
+                            </div>
+                            @else
+                            <div class="user_info">
+                                <span>Chat with....</span>
+                            </div>
+                        @endif
                     </div>
-
                 </div>
                 <div class="card-body msg_card_body">
                     @foreach($messages as $message)
-                        @if($message->sender_id==$user->id)
+                        @if($message->sender_id==$user_id->id && $message->recipient_id==Auth::user()->id)
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
                                     <img alt="Bruce Lee 1973.jpg" class="rounded-circle user_img_msg"
@@ -291,7 +260,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if($message->recipient_id==Auth::user()->id)
+                        @if($message->recipient_id==$user_id->id && $message->sender_id==Auth::user()->id)
                             <div class="d-flex justify-content-end mb-4">
                                 <div class="msg_container_send">
                                     {{$message->message}}
@@ -306,18 +275,16 @@
                         @endif
                     @endforeach
                 </div>
-                <form action="{{ route('createMessage') }}" method="POST">
+                <form action="{{ route('createMessage', $user_id->id) }}" method="POST">
                     @csrf
                     <div class="card-footer">
                         <div class="input-group">
                             <div class="input-group-append">
                                 <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                             </div>
-                            <textarea name="message" class="form-control type_msg"
+                            <label for="text"></label>
+                            <textarea name="message" id="text" class="form-control type_msg"
                                       placeholder="Type your message..."></textarea>
-                            <div class="input-group-append">
-                                <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
-                            </div>
                             <button class="btn btn-warning" type="submit" id="button-addon2"
                                     style="padding-top: .55rem;">
                                 Відправити

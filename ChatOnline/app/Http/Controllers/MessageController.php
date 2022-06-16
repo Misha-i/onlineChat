@@ -11,26 +11,26 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $messages = Message::get();
         $users = User::get();
         return view('onlineChat.message', ['messages' => $messages, 'users' => $users]);
     }
+    /*public function indexAfterSendMessage($id ){
+        $messages = Message::get();
+        $users = User::get();
+        $user_id = User::find($id);
+        return view('onlineChat.message', ['user_id' => $user_id]);
+    }*/
 
-    public function create(Request $request)
+    public function create($id, Request $request)
     {
-
-        /*$message =  Message::create([
-            'message' => $request->input('message'),
-            'sender_id' => Auth::id(),
-            'recipient_id' => $request->input('recipient_id')
-        ]);*/
-        /*dd(auth()->user()->id);*/
+        $user = User::find($id);
         $message = new Message();
         $message->message = $request->input('message');
-        $message->sender_id = auth()->user()->id;
-        $message->recipient_id = $request->input('recipient_id');
+        $message->sender_id = Auth::user()->id;
+        $message->recipient_id = $user->id;
         $message->save();
         return redirect()->route('message');
     }
@@ -43,9 +43,10 @@ class MessageController extends Controller
             $messages->where('recipient_id', $id)->where('sender_id', auth()->user()->id);
         })->orderBy('created_at')->get();
         $users = User::get();
-        $user = User::where('id', $id)->get();
-       /* dd($user);*/
-        return view('onlineChat.message', ['messages' => $messages, 'users' => $users, 'user' => $user]);
+        $user = User::find($id);
+        /*dd($user->id);*/
+        return view('onlineChat.message', ['messages' => $messages, 'users' => $users, 'user_id' => $user]);
     }
+
 
 }
