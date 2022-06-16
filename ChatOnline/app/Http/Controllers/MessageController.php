@@ -40,6 +40,4 @@ class MessageController extends Controller
         $user = User::find($id);
         return view('onlineChat.message', ['messages' => $messages, 'users' => $users, 'user_id' => $user]);
     }
-
-
 }
