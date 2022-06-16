@@ -17,12 +17,6 @@ class MessageController extends Controller
         $users = User::get();
         return view('onlineChat.message', ['messages' => $messages, 'users' => $users]);
     }
-    /*public function indexAfterSendMessage($id ){
-        $messages = Message::get();
-        $users = User::get();
-        $user_id = User::find($id);
-        return view('onlineChat.message', ['user_id' => $user_id]);
-    }*/
 
     public function create($id, Request $request)
     {
@@ -44,7 +38,6 @@ class MessageController extends Controller
         })->orderBy('created_at')->get();
         $users = User::get();
         $user = User::find($id);
-        /*dd($user->id);*/
         return view('onlineChat.message', ['messages' => $messages, 'users' => $users, 'user_id' => $user]);
     }
 
